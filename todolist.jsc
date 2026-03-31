@@ -1,0 +1,28 @@
+import { useMemo } from "react";
+import { useTodos } from "../context/TodoContext";
+import TodoItem from "./TodoItem";
+
+export default function TodoList() {
+  const { todos, filter } = useTodos();
+
+  const filteredTodos = useMemo(() => {
+    console.log("Filtrando...");
+    
+    switch (filter) {
+      case "done":
+        return todos.filter(t => t.done);
+      case "pending":
+        return todos.filter(t => !t.done);
+      default:
+        return todos;
+    }
+  }, [todos, filter]);
+
+  return (
+    <ul>
+      {filteredTodos.map(todo => (
+        <TodoItem key={todo.id} todo={todo} />
+      ))}
+    </ul>
+  );
+}
